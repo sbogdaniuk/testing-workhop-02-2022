@@ -24,7 +24,8 @@ What we have – small chat app, that will be written with different stacks.
 ---
 **NOTE**
 
-No shared logic between apps. Only components and utils can be shared.
+No shared business logic between apps.
+Only components and utils can be shared.
 
 ---
 
