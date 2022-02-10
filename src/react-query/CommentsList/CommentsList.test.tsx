@@ -1,6 +1,6 @@
 import React from 'react'
 import { CommentsList } from './CommentsList'
-import { renderReactQuery, screen } from '../test-utils'
+import { renderReactQuery, screen } from '../../test-utils'
 
 describe('<CommentsList />', () => {
   it('should render loader', () => {

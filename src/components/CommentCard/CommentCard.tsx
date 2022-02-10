@@ -7,29 +7,29 @@ import Typography from '@mui/material/Typography'
 import Card from '@mui/material/Card'
 
 import './CommentCard.css'
-import { FullCommentInfo } from '../../types/Comment'
+import { Comment } from '../../types/Comment'
 
 type CommentCardProps = {
-  comment: FullCommentInfo
+  comment: Comment
 }
 
-export const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
+export const CommentCard: React.VFC<CommentCardProps> = ({ comment }): JSX.Element => {
   return (
     <Card sx={{ width: 500 }} className="comment-card">
-    <CardHeader
-      avatar={
-        <Avatar sx={{ bgcolor: deepOrange[500] }}>
-          {comment.author?.name.charAt(0)}
-        </Avatar>
-      }
-      title={comment.author?.name}
-      subheader={comment.author?.email}
-    />
-    <CardContent>
-      <Typography variant="body2" color="text.secondary">
-        {comment.body}
-      </Typography>
-    </CardContent>
-  </Card>
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>
+            {comment.user?.name.charAt(0)}
+          </Avatar>
+        }
+        title={comment.user?.name}
+        subheader={comment.user?.email}
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {comment.body}
+        </Typography>
+      </CardContent>
+   </Card>
   )
 }

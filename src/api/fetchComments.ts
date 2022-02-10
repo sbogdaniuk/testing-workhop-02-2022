@@ -1,7 +1,12 @@
 import { getAPIUrl } from '../utils'
+import { Comment } from '../types/Comment'
 
-export const fetchComments = async () => {
-  return  fetch(getAPIUrl('rest/comments')).then(res => {
+export const fetchComments = async (): Promise<Comment[]> => {
+  return fetch(getAPIUrl('rest/comments?_expand=user'), {
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  }).then(res => {
     return res.json()
   })
 }

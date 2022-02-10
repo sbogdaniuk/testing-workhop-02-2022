@@ -1,7 +1,7 @@
 import { getAPIUrl } from '../utils'
 import { Comment } from '../types/Comment'
 
-export const addComment = async (comment: Comment) => {
+export const addComment = async (comment: Comment): Promise<Comment> => {
   return fetch(getAPIUrl('rest/comments'), {
     method: 'POST',
     body: JSON.stringify(comment),

@@ -1,14 +1,8 @@
-import { User } from './User'
+import { UserData } from './UserData'
 
 export type Comment = {
   id: number,
-  authorId: number,
-  body: string
-}
-
-export type FullCommentInfo = {
-  id: number,
-  authorId: number,
+  userId: number,
   body: string,
-  author?: User
+  user?: UserData
 }
