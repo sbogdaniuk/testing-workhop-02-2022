@@ -1,32 +1,49 @@
 import React from 'react'
-import { useQuery } from 'react-query'
-import { getAPIUrl } from '../utils'
+import { Comment } from '../types/Comment';
+import { CommentCard } from '../components/CommentCard'
+import { CommentInput } from '../components/CommentInput'
+import { User } from '../types/User'
+import { useUsers } from './context/UsersContext'
+import { useComments } from './context/CommentsContext'
 
-type Comment = {
-  postId: number,
-  id: number,
-  name: string,
-  email: string,
-  body: string
+import './CommentList.css'
+
+type CommentsListProps = {
+  userData?: {
+    id: number,
+    name: string,
+    email: string
+  }
 }
 
-export const CommentsList = () => {
-  const { isLoading, error, data } = useQuery<Comment[], Error>('repoData', () =>
-    fetch(getAPIUrl('comments')).then(res => res.json())
-  )
+export const CommentsList: React.FC<CommentsListProps> = ({ userData }) => {
+  const { isLoading, error, comments } = useComments()
 
-  if (isLoading) return <div>Loading...</div>
+  const { data: users, isLoading: isUsersLoading } = useUsers()
+
+  if (isLoading || isUsersLoading) return <div>Loading...</div>
 
   if (error) return <div>{'An error has occurred: ' + error.message}</div>
 
+  if (comments?.length === 0) return <div>There is no available data</div>
+
+  const fullData = comments.map((comment: Comment) => {
+    const author = users.find((user: User) => user.id === comment.authorId)
+    return {
+      ...comment,
+      author
+    }
+  })
+
   return (
-    <dl>
-      {data?.map(comment => (
-        <React.Fragment key={comment.id}>
-          <dt>{comment.name} ({comment.email})</dt>
-          <dd>{comment.body}</dd>
-        </React.Fragment>
+    <div className='list'>
+      {fullData.map((comment) => (
+        <CommentCard key={comment.id} comment={comment} />
       ))}
-    </dl>
+      {
+        userData &&
+          <CommentInput userData={userData} commentsCount={comments.length || 0}/>
+      }
+    </div>
   )
 }
