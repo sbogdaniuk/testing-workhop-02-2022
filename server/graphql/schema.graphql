@@ -1,0 +1,18 @@
+scalar Email
+
+type User {
+  name: String
+  id: ID
+  email: Email
+}
+
+type Comment {
+  id: ID
+  author: User
+  body: String
+}
+
+type Query {
+  me: User
+  comments: [Comment]
+}
