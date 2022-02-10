@@ -1,6 +1,42 @@
-# Getting Started with Create React App
+# Testing workshop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **Aim**: Learn how to write agnostic tests that resemble the way your application is used.
+
+We will try to write tests that will work for different implementations.<br />
+What we have – small chat app, that will be written with different stacks.
+
+**Common packages**:
+- react
+- react-router
+- react-i18next
+- moment
+
+**GraphQL**:
+- @apollo/client
+
+**React-query**:
+- react-query
+
+**Redux**:
+- redux-toolkit
+- redux-saga
+
+---
+**NOTE**
+
+No shared logic between apps. Only components and utils can be shared.
+
+---
+
+## App structure
+```
+src
+├── components                  # shared UI components
+├── graphql
+├── react-query
+├── redux
+└── utils
+```
 
 ## Available Scripts
 
