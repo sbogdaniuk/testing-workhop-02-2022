@@ -16,3 +16,12 @@ type Query {
   me: User
   comments: [Comment]
 }
+
+input CommentInput {
+  body: String!
+}
+
+type Mutation {
+  login(name: String!): User
+  addComment(comment: CommentInput!): Comment!
+}

@@ -1,38 +1,17 @@
 import express from 'express'
 import jsonServer from 'json-server'
-import fetch from 'node-fetch'
-import queryString from 'query-string'
-import { SERVER_URL, DB_FILE_PATH } from '../constants.js'
+import { DB_FILE_PATH } from '../constants.js'
+import { getUser, addUser } from '../api.js'
 
-export function convertToSlug(str) {
-  return str.toLowerCase()
-    .replace(/ /g, '.')
-    .replace(/\.+/g, '.');
+export function convertToSlug(str = '') {
+  return str.toLowerCase().replace(/ /g, '.').replace(/\.+/g, '.')
 }
 
-const getUrl = (url, query) =>
-  [[SERVER_URL, url].filter(Boolean).join('/'), queryString.stringify(query)]
-    .filter(Boolean)
-    .join('?')
-const getUsersUrl = (query) => getUrl('users', query)
-
 const authenticated = async (req, res, next) => {
-  const username = req.headers.authorization
-
-  if (!username) {
+  if (!req.context.user) {
     return res.status(401).send({ message: 'Not authenticated' })
   }
 
-  const user = await fetch(getUsersUrl({ username }))
-    .then((res) => res.json())
-    .then((users) => users[0])
-    .catch(() => {})
-
-  if (!user) {
-    return res.status(401).send({ message: 'Not authenticated' })
-  }
-
-  req.context = { user }
   next()
 }
 
@@ -47,33 +26,27 @@ export const initRESTServer = async (app) => {
     const { name } = req.body
     const username = convertToSlug(name)
 
-    if (!name || !username) {
+    if (!username) {
       return res.status(400).send({ message: "Invalid param 'name'!" })
     }
 
     res.set({ authorization: username })
 
-    const user = await fetch(getUsersUrl({ username }))
-      .then((res) => res.json())
-      .then((users) => users[0])
+    const user = await getUser({ username })
 
     if (user) {
       return res.send(user)
     }
 
     // create new user
-    const newUser = await fetch(getUsersUrl(), {
-      method: 'POST',
-      headers: {
-        authorization: username,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const newUser = await addUser(
+      {
         ...req.body,
         username,
-        email: `${username}@email.com`
-      })
-    }).then((res) => res.json())
+        email: `${username}@email.com`,
+      },
+      { token: username },
+    )
 
     return res.send(newUser)
   })
@@ -96,5 +69,5 @@ export const initRESTServer = async (app) => {
   // Use default router
   router.use(jsonServer.defaults(), jsonServer.router(DB_FILE_PATH))
 
-  app.use('/rest', jsonServer.bodyParser, router);
+  app.use('/rest', jsonServer.bodyParser, router)
 }

@@ -59,6 +59,8 @@
     ]
   },
   "devDependencies": {
+    "graphql-middleware": "6.0.9",
+    "graphql-shield": "^7.5.0",
     "query-string": "^7.1.1"
   }
 }
