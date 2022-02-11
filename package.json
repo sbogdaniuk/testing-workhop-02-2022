@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run start:server\" \"npm run start:server\"",
+    "start": "concurrently \"npm run start:fe\" \"npm run start:server\"",
     "start:fe": "react-scripts start",
     "start:server": "nodemon --watch server --experimental-specifier-resolution=node server",
     "build": "react-scripts build",

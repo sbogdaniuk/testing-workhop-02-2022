@@ -5,6 +5,12 @@
       "name": "John Doe",
       "username": "john.doe",
       "email": "john.doe@email.com"
+    },
+    {
+      "name": "Serge bogdaniuk",
+      "username": "serge.bogdaniuk",
+      "email": "serge.bogdaniuk@email.com",
+      "id": 2
     }
   ],
   "comments": [
@@ -14,6 +20,13 @@
       "userId": 1,
       "createdAt": 1644557952145,
       "modifiedAt": 1644557952145
+    },
+    {
+      "body": "asdasd",
+      "createdAt": 1644586980838,
+      "modifiedAt": 1644586980838,
+      "userId": 2,
+      "id": 2
     }
   ]
 }
