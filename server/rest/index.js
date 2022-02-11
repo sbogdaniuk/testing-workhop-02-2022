@@ -38,6 +38,10 @@ const authenticated = async (req, res, next) => {
 export const initRESTServer = async (app) => {
   app.use('/rest', jsonServer.bodyParser)
 
+  app.get('/rest/me', authenticated, async (req, res) => {
+    return res.send(req.context.user)
+  })
+
   app.post('/rest/login', async (req, res) => {
     const { name } = req.body
     const username = convertToSlug(name)
