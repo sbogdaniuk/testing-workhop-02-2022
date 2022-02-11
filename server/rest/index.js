@@ -1,3 +1,4 @@
+import express from 'express'
 import jsonServer from 'json-server'
 import fetch from 'node-fetch'
 import queryString from 'query-string'
@@ -36,13 +37,13 @@ const authenticated = async (req, res, next) => {
 }
 
 export const initRESTServer = async (app) => {
-  app.use('/rest', jsonServer.bodyParser)
+  const router = express.Router()
 
-  app.get('/rest/me', authenticated, async (req, res) => {
+  router.get('/me', authenticated, async (req, res) => {
     return res.send(req.context.user)
   })
 
-  app.post('/rest/login', async (req, res) => {
+  router.post('/login', async (req, res) => {
     const { name } = req.body
     const username = convertToSlug(name)
 
@@ -77,14 +78,14 @@ export const initRESTServer = async (app) => {
     return res.send(newUser)
   })
 
-  app.post('/rest/comments', authenticated, (req, res, next) => {
+  router.post('/comments', authenticated, (req, res, next) => {
     req.body.createdAt = Date.now()
     req.body.modifiedAt = Date.now()
     req.body.userId = req.context.user.id
     // Continue to JSON Server router
     next()
   })
-  app.put('/rest/comments', authenticated, (req, res, next) => {
+  router.put('/comments', authenticated, (req, res, next) => {
     delete req.body.createdAt
     delete req.body.userId
     req.body.modifiedAt = Date.now()
@@ -93,5 +94,7 @@ export const initRESTServer = async (app) => {
   })
 
   // Use default router
-  app.use('/rest', jsonServer.defaults(), jsonServer.router(DB_FILE_PATH))
+  router.use(jsonServer.defaults(), jsonServer.router(DB_FILE_PATH))
+
+  app.use('/rest', jsonServer.bodyParser, router);
 }
