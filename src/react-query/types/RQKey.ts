@@ -1,3 +1,4 @@
 export enum RQKey {
-  CommentsList = 'commentsList'
+  CommentsList = 'commentsList',
+  UserData = 'userData'
 }

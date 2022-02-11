@@ -1,25 +1,22 @@
-import React, { useCallback } from 'react';
-import { Comment } from '../../types/Comment';
+import React, { useCallback } from 'react'
+import { Comment } from '../../types/Comment'
 import { CommentCard } from '../../components/CommentCard'
 import { CommentInput } from '../../components/CommentInput'
 
 import './CommentList.css'
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchComments } from '../../api/fetchComments';
-import { RQKey } from '../types/RQKey';
-import { UserData } from '../../types/UserData';
-import { addComment } from '../../api/addComment';
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { fetchComments } from '../../api/fetchComments'
+import { RQKey } from '../types/RQKey'
+import { UserData } from '../../types/UserData'
+import { addComment } from '../../api/addComment'
 
-type CommentsListProps = {
-  userData?: UserData
-}
-
-export const CommentsList: React.VFC<CommentsListProps> = ({ userData }) => {
+export const CommentsList: React.VFC = () => {
   const { isLoading, error, data: comments } = useQuery<Comment[], { message?: string }>(RQKey.CommentsList, fetchComments)
 
   const queryClient = useQueryClient()
+  const userData = queryClient.getQueryData<UserData>(RQKey.UserData)
 
-  const mutation = useMutation<Comment, unknown, Comment>(addComment,
+  const submitComment = useMutation<Comment, unknown, string>(addComment,
     {
       onSuccess: (res) => {
         queryClient.setQueryData<Comment[]>(RQKey.CommentsList, (comments) => {
@@ -32,14 +29,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({ userData }) => {
     })
 
   const onCommentSubmit = useCallback((commentValue: string) => {
-    // TODO: should be changed
-    const dataToSubmit: Comment = {
-      id: (comments?.length || 0) + 1,
-      userId: 1,
-      body: commentValue
-    }
-
-    mutation.mutate(dataToSubmit)
+    submitComment.mutate(commentValue)
   }, [comments?.length] )
 
   if (isLoading) return <div>Loading...</div>

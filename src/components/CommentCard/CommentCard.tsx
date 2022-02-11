@@ -8,6 +8,7 @@ import Card from '@mui/material/Card'
 
 import './CommentCard.css'
 import { Comment } from '../../types/Comment'
+import { Date } from '../Date'
 
 type CommentCardProps = {
   comment: Comment
@@ -22,6 +23,7 @@ export const CommentCard: React.VFC<CommentCardProps> = ({ comment }): JSX.Eleme
             {comment.user?.name.charAt(0)}
           </Avatar>
         }
+        action={<Date timestamp={comment.createdAt}/>}
         title={comment.user?.name}
         subheader={comment.user?.email}
       />

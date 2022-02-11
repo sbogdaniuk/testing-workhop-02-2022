@@ -1,24 +1,33 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 
 import { Header } from '../components/Header'
 import { CommentsList } from './CommentsList'
 import { Login } from './Login'
-import { UserData } from '../types/UserData'
+import { AUTHORIZATION_KEY } from '../constants'
+import { useQuery } from 'react-query'
+import { RQKey } from './types/RQKey'
+import { getUser } from '../api/login'
+import { TickProvider } from '../components/Date/TickProvider'
 
+const authKey = localStorage.getItem(AUTHORIZATION_KEY)
 
 export const ReactQueryAppPage: React.VFC = (): JSX.Element => {
-  const [userData, setUserData] = useState<UserData>()
-
-  const onLogout = useCallback(() => {
-    setUserData(undefined)
-  }, [])
+  const { isLoading } = useQuery(RQKey.UserData, getUser, {
+    enabled: !!authKey,
+  })
 
   return (
     <>
       <Header>
-        <Login userData={userData} onLogout={onLogout} onLogin={setUserData} />
+        {
+          isLoading
+          ? <div>Loading</div>
+          : <Login />
+        }
       </Header>
-      <CommentsList userData={userData} />
+      <TickProvider>
+        <CommentsList />
+      </TickProvider>
     </>
   )
 }

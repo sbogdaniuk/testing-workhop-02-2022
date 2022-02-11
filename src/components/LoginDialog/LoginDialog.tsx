@@ -6,12 +6,11 @@ import TextField from '@mui/material/TextField'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
-import { UserData } from '../../types/UserData'
 
 type LoginDialogProps = {
   isOpenModal: boolean,
   onClose: () => void,
-  onSubmit: (userData: UserData) => void
+  onSubmit: (username: string) => void
 }
 
 export const LoginDialog: React.VFC<LoginDialogProps> = ({ isOpenModal, onClose, onSubmit}): JSX.Element => {
@@ -46,11 +45,7 @@ export const LoginDialog: React.VFC<LoginDialogProps> = ({ isOpenModal, onClose,
           <Button onClick={onClose}>Cancel</Button>
           <Button
             disabled={isDisabledSubmit}
-            onClick={() => onSubmit({
-              name: userName,
-              id: 99999,
-              email: `${userName}@mail.com`
-            })}
+            onClick={() => onSubmit(userName)}
           >Submit</Button>
         </DialogActions>
     </Dialog>
