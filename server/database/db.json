@@ -1,4 +1,0 @@
-{
-  "users": [{ "id": 1, "name": "John Doe", "email": "john.doe@email.com" }],
-  "comments": [{ "id": 1, "body": "some comment", "authorId": 1 }]
-}

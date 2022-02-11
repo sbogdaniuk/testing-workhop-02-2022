@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "username": "john.doe",
+      "email": "john.doe@email.com"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "userId": 1,
+      "createdAt": 1644557952145,
+      "modifiedAt": 1644557952145
+    }
+  ]
+}

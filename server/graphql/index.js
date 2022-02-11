@@ -1,16 +1,15 @@
-import path, { join } from 'path'
-import { fileURLToPath } from 'url'
+import { join } from 'path'
 import { ApolloServer } from 'apollo-server-express'
 import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 import { addResolversToSchema } from '@graphql-tools/schema'
 import { resolvers } from './resolvers.js'
+import { SERVER_ROOT_PATH } from '../constants.js'
 
-// call with import.meta
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+let SCHEMA_PATH = join(SERVER_ROOT_PATH, 'graphql/schema.graphql');
 
 export const initGraphQLServer = async (app) => {
-  const schema = loadSchemaSync(join(__dirname, 'schema.graphql'), {
+  const schema = loadSchemaSync(SCHEMA_PATH, {
     loaders: [new GraphQLFileLoader()],
   })
 
