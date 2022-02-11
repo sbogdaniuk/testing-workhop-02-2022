@@ -5,7 +5,7 @@ import { AUTHORIZATION_KEY } from '../constants'
 export const addComment = (comment: string): Promise<Comment> => {
   const token = localStorage.getItem(AUTHORIZATION_KEY) as string
 
-    return fetch(getAPIUrl('rest/comments'), {
+    return fetch(getAPIUrl('comments'), {
       method: 'POST',
       body: JSON.stringify({ body: comment }),
       headers: {

@@ -3,7 +3,7 @@ import { UserData } from '../types/UserData'
 import { AUTHORIZATION_KEY } from '../constants'
 
 export const login = (username: string): Promise<UserData> => {
-  return fetch(getAPIUrl('rest/login'), {
+  return fetch(getAPIUrl('login'), {
     method: 'POST',
     body: JSON.stringify({ name: username }),
     headers: {
@@ -17,7 +17,7 @@ export const login = (username: string): Promise<UserData> => {
 export const getUser = () => {
   const token = localStorage.getItem(AUTHORIZATION_KEY) as string
 
-    return fetch(getAPIUrl('rest/me'), {
+    return fetch(getAPIUrl('me'), {
       headers: {
         'authorization': token
       }
